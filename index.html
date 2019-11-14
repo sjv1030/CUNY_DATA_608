@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>Silverio J. Vasquez HW#5</title>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+<h1>Silverio J. Vasquez - Homework #5</h1>
+<br />
+
+<p> Please insert a word in the text box below: </p>
+
+<script type = "text/javascript">
+function reverse(word){
+	
+    var word2 = word.split(""); 
+    var word3 = word2.reverse(); 
+    var word4 = word3.join(""); 
+	
+    return word4; 
+};
+function getWord(){
+	document.getElementById("output").innerHTML = reverse(document.getElementById("string").value);
+	//document.getElementById("output").innerHTML = document.getElementById("string").value;
+}
+</script>
+<form>
+<input id="string" type="string">
+<input type="button" value="reverse" onclick="getWord();">
+</form>
+
+<div id="output"></div>
+
+<p> Please pick a number:</p>
+<script type="text/javascript">
+function multiplication(){
+    var x = document.getElementById("num").value;
+    var numbers = [];
+    var counter = 1;
+    
+	do {
+        numbers.push(x*counter);
+        counter++;
+	}   while (counter < 21);
+
+	// Didn't want to write a complicated for loop with logic for when to go to new row
+    var row1 = numbers.slice(0,4);
+    var row2 = numbers.slice(4,8);
+    var row3 = numbers.slice(8,12);
+    var row4 = numbers.slice(12,16);
+    var row5 = numbers.slice(16,20);
+    
+	text = "<table></tr>";
+    row1.forEach(createRow);
+    
+	text += "</tr><tr>";
+    row2.forEach(createRow);
+    
+	text += "</tr><tr>";
+    row3.forEach(createRow);
+    
+	text += "</tr><tr>";
+    row4.forEach(createRow);
+
+    text += "</tr><tr>";
+    row5.forEach(createRow);
+
+    text += "</tr></table>";
+
+    document.getElementById("target").innerHTML = text;
+
+    function createRow(value){
+        text += "<td>" + value + "</td>";
+    };
+};
+</script>
+<form>
+    <input id="num" type="number" size="4">
+    <input type="button" value="Go!" onClick="multiplication();">
+</form>
+
+<div id="target"></div>
+
+
+<script>
+
+// source: https://plot.ly/javascript/table-subplots/
+Plotly.d3.csv("data/presidents.csv", function(err, rows){
+  
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+  
+  // header values
+  var headerNames = Plotly.d3.keys(rows[0]);
+  var headerValues = [headerNames[0],headerNames[1],
+                      headerNames[2]];
+  
+  // cell values
+  var cellValues = [];
+  for (i = 0; i < headerValues.length; i++) { 
+    cellValue = unpack(rows, headerValues[i]);
+    cellValues[i] = cellValue;
+  }
+  
+  
+  // create table
+  var table = {
+    type: 'table',
+    columnwidth: [150,200,200],
+    columnorder: [0,1,2],
+    header: {
+      values: headerValues, 
+      align: "center",
+      line: {width: 1, color: 'rgb(50, 50, 50)'},
+      font: {family: "Arial", size: 11, color: "black"}
+    },
+    cells: {
+      values: cellValues,
+      align: ["center", "center"],
+      line: {color: "black", width: 1},
+      font: {family: "Arial", size: 10, color: ["black"]}
+    },
+    xaxis: 'x',
+    yaxis: 'y',
+    domain: {x: [0,0.4], y: [0,1]}
+  }
+
+ 
+  var data = [table]
+  //document.getElementById("quit").innerHTML = data[0]; 
+   
+  // define layout
+  var layout = {
+    title: "Table of Presidents",
+  }
+
+  Plotly.plot('graph', data, layout);
+  //Plotly.plot('graph', data);  
+  
+});   
+
+</script>
+
+<div id="graph"></div>
+
+
+<div id="quit"><p>I couldn't figure out how to make a search box for the 2nd part of the 2nd question.</div>
+
+</body>
+</html>
