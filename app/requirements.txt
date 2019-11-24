@@ -1,0 +1,7 @@
+django
+gunicorn
+django-heroku
+dash
+dash_core_components
+dash_html_components
+pandas
